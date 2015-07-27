@@ -1,0 +1,99 @@
+﻿
+body { 
+    width:100%;
+    height: 100%;
+    font: 12px arial;
+}
+
+header{    
+    color: bisque;
+    background: darkolivegreen;
+    text-align: center; 
+}
+
+#Content2{
+    position:relative;
+}
+
+footer {  
+bottom: 0;
+width: 100%;      
+        color: bisque;
+    background: darkolivegreen;
+    text-align: center;
+    font-size: large;    
+}
+
+#btnCalculate{
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+h4{
+    text-align:center;
+    text-transform: uppercase;
+    font-size: x-large;
+    background-color: ButtonFace;
+}
+
+nav{
+    width: auto;
+    height:55px;
+    background:#000000 repeat-x;    
+}
+
+ ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    float: left;
+}
+
+  li {
+    position: relative;
+    z-index: 9;
+    margin: 0;
+    padding: 0;
+    display: block;
+    float: left;     
+}
+
+  li:hover>ul {
+    left: -2px;
+}
+
+  ul a:hover span {
+    color: #00414e;
+}
+
+ul li {    
+    padding: 4px 0;
+    z-index: 9;
+}
+
+ ul a:hover span {
+    color: #00414e;
+}
+
+ul a:hover span {   
+    color: #00414e;
+}
+
+ a {
+    position: relative;
+    z-index: 10;
+    height: 55px;
+    display: block;
+    float: left;	
+    padding: 0 10px 0 10px;
+    line-height: 55px;
+    text-decoration: none;
+}
+ 

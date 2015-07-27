@@ -1,0 +1,439 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BusTravelPlanner.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="booking_master">
+          <Key>
+            <PropertyRef Name="BOOKING_ID" />
+          </Key>
+          <Property Name="BOOKING_ID" Type="numeric" Precision="8" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SCHEDULE_ID" Type="numeric" Precision="8" Scale="0" />
+          <Property Name="USER_ID" Type="numeric" Precision="8" Scale="0" />
+          <Property Name="TOTAL_SEAT" Type="int" />
+          <Property Name="BOOKING_DATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="bus_master">
+          <Key>
+            <PropertyRef Name="BUS_ID" />
+          </Key>
+          <Property Name="BUS_ID" Type="numeric" Precision="8" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BUS_NO" Type="varchar" MaxLength="50" />
+          <Property Name="BUS_TYPE" Type="numeric" Precision="8" Scale="0" />
+          <Property Name="SOURCE_STATION" Type="numeric" Precision="8" Scale="0" />
+          <Property Name="DESTINATION_STATION" Type="numeric" Precision="8" Scale="0" />
+        </EntityType>
+        <EntityType Name="busschedule_master">
+          <Key>
+            <PropertyRef Name="SCHEDULE_ID" />
+          </Key>
+          <Property Name="SCHEDULE_ID" Type="numeric" Precision="8" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BUS_ID" Type="numeric" Precision="8" Scale="0" />
+          <Property Name="DEPARTURE_TIME" Type="datetime" />
+          <Property Name="ARRIVAL_TIME" Type="datetime" />
+          <Property Name="SEAT_AVAILABILITY" Type="int" />
+        </EntityType>
+        <EntityType Name="bustype_master">
+          <Key>
+            <PropertyRef Name="BUSTYPE_ID" />
+          </Key>
+          <Property Name="BUSTYPE_ID" Type="numeric" Precision="8" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BUS_TYPE" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="station_master">
+          <Key>
+            <PropertyRef Name="STATION_ID" />
+          </Key>
+          <Property Name="STATION_ID" Type="numeric" Precision="8" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="STATION_NAME" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="user_registration">
+          <Key>
+            <PropertyRef Name="USER_ID" />
+          </Key>
+          <Property Name="USER_ID" Type="numeric" Precision="8" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="USERNAME" Type="varchar" MaxLength="50" />
+          <Property Name="FIRSTNAME" Type="varchar" MaxLength="50" />
+          <Property Name="LASTNAME" Type="varchar" MaxLength="50" />
+          <Property Name="ADDRESS" Type="varchar" MaxLength="50" />
+          <Property Name="CITY" Type="varchar" MaxLength="50" />
+          <Property Name="STATE" Type="varchar" MaxLength="50" />
+          <Property Name="POSTALCODE" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_booking_information_bus_schedule">
+          <End Role="busschedule_master" Type="Self.busschedule_master" Multiplicity="0..1" />
+          <End Role="booking_master" Type="Self.booking_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="busschedule_master">
+              <PropertyRef Name="SCHEDULE_ID" />
+            </Principal>
+            <Dependent Role="booking_master">
+              <PropertyRef Name="SCHEDULE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_booking_information_user_registration">
+          <End Role="user_registration" Type="Self.user_registration" Multiplicity="0..1" />
+          <End Role="booking_master" Type="Self.booking_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_registration">
+              <PropertyRef Name="USER_ID" />
+            </Principal>
+            <Dependent Role="booking_master">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bus_master_bustype_master">
+          <End Role="bustype_master" Type="Self.bustype_master" Multiplicity="0..1" />
+          <End Role="bus_master" Type="Self.bus_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bustype_master">
+              <PropertyRef Name="BUSTYPE_ID" />
+            </Principal>
+            <Dependent Role="bus_master">
+              <PropertyRef Name="BUS_TYPE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bus_master_station_master">
+          <End Role="station_master" Type="Self.station_master" Multiplicity="0..1" />
+          <End Role="bus_master" Type="Self.bus_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="station_master">
+              <PropertyRef Name="STATION_ID" />
+            </Principal>
+            <Dependent Role="bus_master">
+              <PropertyRef Name="SOURCE_STATION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bus_master_station_master1">
+          <End Role="station_master" Type="Self.station_master" Multiplicity="0..1" />
+          <End Role="bus_master" Type="Self.bus_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="station_master">
+              <PropertyRef Name="STATION_ID" />
+            </Principal>
+            <Dependent Role="bus_master">
+              <PropertyRef Name="DESTINATION_STATION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bus_schedule_bus_master">
+          <End Role="bus_master" Type="Self.bus_master" Multiplicity="0..1" />
+          <End Role="busschedule_master" Type="Self.busschedule_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bus_master">
+              <PropertyRef Name="BUS_ID" />
+            </Principal>
+            <Dependent Role="busschedule_master">
+              <PropertyRef Name="BUS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BusTravelPlannerStoreContainer">
+          <EntitySet Name="booking_master" EntityType="Self.booking_master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bus_master" EntityType="Self.bus_master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="busschedule_master" EntityType="Self.busschedule_master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bustype_master" EntityType="Self.bustype_master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="station_master" EntityType="Self.station_master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_registration" EntityType="Self.user_registration" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_booking_information_bus_schedule" Association="Self.FK_booking_information_bus_schedule">
+            <End Role="busschedule_master" EntitySet="busschedule_master" />
+            <End Role="booking_master" EntitySet="booking_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_booking_information_user_registration" Association="Self.FK_booking_information_user_registration">
+            <End Role="user_registration" EntitySet="user_registration" />
+            <End Role="booking_master" EntitySet="booking_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bus_master_bustype_master" Association="Self.FK_bus_master_bustype_master">
+            <End Role="bustype_master" EntitySet="bustype_master" />
+            <End Role="bus_master" EntitySet="bus_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bus_master_station_master" Association="Self.FK_bus_master_station_master">
+            <End Role="station_master" EntitySet="station_master" />
+            <End Role="bus_master" EntitySet="bus_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bus_master_station_master1" Association="Self.FK_bus_master_station_master1">
+            <End Role="station_master" EntitySet="station_master" />
+            <End Role="bus_master" EntitySet="bus_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bus_schedule_bus_master" Association="Self.FK_bus_schedule_bus_master">
+            <End Role="bus_master" EntitySet="bus_master" />
+            <End Role="busschedule_master" EntitySet="busschedule_master" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BusTravelPlanner" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="booking_master">
+          <Key>
+            <PropertyRef Name="BOOKING_ID" />
+          </Key>
+          <Property Name="BOOKING_ID" Type="Decimal" Precision="8" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SCHEDULE_ID" Type="Decimal" Precision="8" Scale="0" />
+          <Property Name="USER_ID" Type="Decimal" Precision="8" Scale="0" />
+          <Property Name="TOTAL_SEAT" Type="Int32" />
+          <Property Name="BOOKING_DATE" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="busschedule_master" Relationship="Self.FK_booking_information_bus_schedule" FromRole="booking_master" ToRole="busschedule_master" />
+          <NavigationProperty Name="user_registration" Relationship="Self.FK_booking_information_user_registration" FromRole="booking_master" ToRole="user_registration" />
+        </EntityType>
+        <EntityType Name="bus_master">
+          <Key>
+            <PropertyRef Name="BUS_ID" />
+          </Key>
+          <Property Name="BUS_ID" Type="Decimal" Precision="8" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BUS_NO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BUS_TYPE" Type="Decimal" Precision="8" Scale="0" />
+          <Property Name="SOURCE_STATION" Type="Decimal" Precision="8" Scale="0" />
+          <Property Name="DESTINATION_STATION" Type="Decimal" Precision="8" Scale="0" />
+          <NavigationProperty Name="bustype_master" Relationship="Self.FK_bus_master_bustype_master" FromRole="bus_master" ToRole="bustype_master" />
+          <NavigationProperty Name="station_master" Relationship="Self.FK_bus_master_station_master" FromRole="bus_master" ToRole="station_master" />
+          <NavigationProperty Name="station_master1" Relationship="Self.FK_bus_master_station_master1" FromRole="bus_master" ToRole="station_master" />
+          <NavigationProperty Name="busschedule_master" Relationship="Self.FK_bus_schedule_bus_master" FromRole="bus_master" ToRole="busschedule_master" />
+        </EntityType>
+        <EntityType Name="busschedule_master">
+          <Key>
+            <PropertyRef Name="SCHEDULE_ID" />
+          </Key>
+          <Property Name="SCHEDULE_ID" Type="Decimal" Precision="8" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BUS_ID" Type="Decimal" Precision="8" Scale="0" />
+          <Property Name="DEPARTURE_TIME" Type="DateTime" Precision="3" />
+          <Property Name="ARRIVAL_TIME" Type="DateTime" Precision="3" />
+          <Property Name="SEAT_AVAILABILITY" Type="Int32" />
+          <NavigationProperty Name="booking_master" Relationship="Self.FK_booking_information_bus_schedule" FromRole="busschedule_master" ToRole="booking_master" />
+          <NavigationProperty Name="bus_master" Relationship="Self.FK_bus_schedule_bus_master" FromRole="busschedule_master" ToRole="bus_master" />
+        </EntityType>
+        <EntityType Name="bustype_master">
+          <Key>
+            <PropertyRef Name="BUSTYPE_ID" />
+          </Key>
+          <Property Name="BUSTYPE_ID" Type="Decimal" Precision="8" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BUS_TYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="bus_master" Relationship="Self.FK_bus_master_bustype_master" FromRole="bustype_master" ToRole="bus_master" />
+        </EntityType>
+        <EntityType Name="station_master">
+          <Key>
+            <PropertyRef Name="STATION_ID" />
+          </Key>
+          <Property Name="STATION_ID" Type="Decimal" Precision="8" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="STATION_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="bus_master" Relationship="Self.FK_bus_master_station_master" FromRole="station_master" ToRole="bus_master" />
+          <NavigationProperty Name="bus_master1" Relationship="Self.FK_bus_master_station_master1" FromRole="station_master" ToRole="bus_master" />
+        </EntityType>
+        <EntityType Name="user_registration">
+          <Key>
+            <PropertyRef Name="USER_ID" />
+          </Key>
+          <Property Name="USER_ID" Type="Decimal" Precision="8" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="USERNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FIRSTNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LASTNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ADDRESS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CITY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="STATE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="POSTALCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="booking_master" Relationship="Self.FK_booking_information_user_registration" FromRole="user_registration" ToRole="booking_master" />
+        </EntityType>
+        <Association Name="FK_booking_information_bus_schedule">
+          <End Role="busschedule_master" Type="Self.busschedule_master" Multiplicity="0..1" />
+          <End Role="booking_master" Type="Self.booking_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="busschedule_master">
+              <PropertyRef Name="SCHEDULE_ID" />
+            </Principal>
+            <Dependent Role="booking_master">
+              <PropertyRef Name="SCHEDULE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_booking_information_user_registration">
+          <End Role="user_registration" Type="Self.user_registration" Multiplicity="0..1" />
+          <End Role="booking_master" Type="Self.booking_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_registration">
+              <PropertyRef Name="USER_ID" />
+            </Principal>
+            <Dependent Role="booking_master">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bus_master_bustype_master">
+          <End Role="bustype_master" Type="Self.bustype_master" Multiplicity="0..1" />
+          <End Role="bus_master" Type="Self.bus_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bustype_master">
+              <PropertyRef Name="BUSTYPE_ID" />
+            </Principal>
+            <Dependent Role="bus_master">
+              <PropertyRef Name="BUS_TYPE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bus_master_station_master">
+          <End Role="station_master" Type="Self.station_master" Multiplicity="0..1" />
+          <End Role="bus_master" Type="Self.bus_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="station_master">
+              <PropertyRef Name="STATION_ID" />
+            </Principal>
+            <Dependent Role="bus_master">
+              <PropertyRef Name="SOURCE_STATION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bus_master_station_master1">
+          <End Role="station_master" Type="Self.station_master" Multiplicity="0..1" />
+          <End Role="bus_master" Type="Self.bus_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="station_master">
+              <PropertyRef Name="STATION_ID" />
+            </Principal>
+            <Dependent Role="bus_master">
+              <PropertyRef Name="DESTINATION_STATION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bus_schedule_bus_master">
+          <End Role="bus_master" Type="Self.bus_master" Multiplicity="0..1" />
+          <End Role="busschedule_master" Type="Self.busschedule_master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bus_master">
+              <PropertyRef Name="BUS_ID" />
+            </Principal>
+            <Dependent Role="busschedule_master">
+              <PropertyRef Name="BUS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TravelConnection" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="booking_master" EntityType="Self.booking_master" />
+          <EntitySet Name="bus_master" EntityType="Self.bus_master" />
+          <EntitySet Name="busschedule_master" EntityType="Self.busschedule_master" />
+          <EntitySet Name="bustype_master" EntityType="Self.bustype_master" />
+          <EntitySet Name="station_master" EntityType="Self.station_master" />
+          <EntitySet Name="user_registration" EntityType="Self.user_registration" />
+          <AssociationSet Name="FK_booking_information_bus_schedule" Association="Self.FK_booking_information_bus_schedule">
+            <End Role="busschedule_master" EntitySet="busschedule_master" />
+            <End Role="booking_master" EntitySet="booking_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_booking_information_user_registration" Association="Self.FK_booking_information_user_registration">
+            <End Role="user_registration" EntitySet="user_registration" />
+            <End Role="booking_master" EntitySet="booking_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bus_master_bustype_master" Association="Self.FK_bus_master_bustype_master">
+            <End Role="bustype_master" EntitySet="bustype_master" />
+            <End Role="bus_master" EntitySet="bus_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bus_master_station_master" Association="Self.FK_bus_master_station_master">
+            <End Role="station_master" EntitySet="station_master" />
+            <End Role="bus_master" EntitySet="bus_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bus_master_station_master1" Association="Self.FK_bus_master_station_master1">
+            <End Role="station_master" EntitySet="station_master" />
+            <End Role="bus_master" EntitySet="bus_master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bus_schedule_bus_master" Association="Self.FK_bus_schedule_bus_master">
+            <End Role="bus_master" EntitySet="bus_master" />
+            <End Role="busschedule_master" EntitySet="busschedule_master" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BusTravelPlannerStoreContainer" CdmEntityContainer="TravelConnection">
+          <EntitySetMapping Name="booking_master">
+            <EntityTypeMapping TypeName="BusTravelPlanner.booking_master">
+              <MappingFragment StoreEntitySet="booking_master">
+                <ScalarProperty Name="BOOKING_ID" ColumnName="BOOKING_ID" />
+                <ScalarProperty Name="SCHEDULE_ID" ColumnName="SCHEDULE_ID" />
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="TOTAL_SEAT" ColumnName="TOTAL_SEAT" />
+                <ScalarProperty Name="BOOKING_DATE" ColumnName="BOOKING_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bus_master">
+            <EntityTypeMapping TypeName="BusTravelPlanner.bus_master">
+              <MappingFragment StoreEntitySet="bus_master">
+                <ScalarProperty Name="BUS_ID" ColumnName="BUS_ID" />
+                <ScalarProperty Name="BUS_NO" ColumnName="BUS_NO" />
+                <ScalarProperty Name="BUS_TYPE" ColumnName="BUS_TYPE" />
+                <ScalarProperty Name="SOURCE_STATION" ColumnName="SOURCE_STATION" />
+                <ScalarProperty Name="DESTINATION_STATION" ColumnName="DESTINATION_STATION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="busschedule_master">
+            <EntityTypeMapping TypeName="BusTravelPlanner.busschedule_master">
+              <MappingFragment StoreEntitySet="busschedule_master">
+                <ScalarProperty Name="SCHEDULE_ID" ColumnName="SCHEDULE_ID" />
+                <ScalarProperty Name="BUS_ID" ColumnName="BUS_ID" />
+                <ScalarProperty Name="DEPARTURE_TIME" ColumnName="DEPARTURE_TIME" />
+                <ScalarProperty Name="ARRIVAL_TIME" ColumnName="ARRIVAL_TIME" />
+                <ScalarProperty Name="SEAT_AVAILABILITY" ColumnName="SEAT_AVAILABILITY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bustype_master">
+            <EntityTypeMapping TypeName="BusTravelPlanner.bustype_master">
+              <MappingFragment StoreEntitySet="bustype_master">
+                <ScalarProperty Name="BUSTYPE_ID" ColumnName="BUSTYPE_ID" />
+                <ScalarProperty Name="BUS_TYPE" ColumnName="BUS_TYPE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="station_master">
+            <EntityTypeMapping TypeName="BusTravelPlanner.station_master">
+              <MappingFragment StoreEntitySet="station_master">
+                <ScalarProperty Name="STATION_ID" ColumnName="STATION_ID" />
+                <ScalarProperty Name="STATION_NAME" ColumnName="STATION_NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_registration">
+            <EntityTypeMapping TypeName="BusTravelPlanner.user_registration">
+              <MappingFragment StoreEntitySet="user_registration">
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
+                <ScalarProperty Name="FIRSTNAME" ColumnName="FIRSTNAME" />
+                <ScalarProperty Name="LASTNAME" ColumnName="LASTNAME" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="POSTALCODE" ColumnName="POSTALCODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
