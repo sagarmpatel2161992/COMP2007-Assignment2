@@ -19,7 +19,7 @@
     <div>
         <asp:GridView ID="grdSchedule" runat="server" AutoGenerateColumns="false" DataKeyNames="SCHEDULE_ID" 
             OnRowDeleting="grdSchedule_RowDeleting" AllowPaging="true" OnPageIndexChanging="grdSchedule_PageIndexChanging" 
-            PageSize="3" AllowSorting="true" OnSorting="grdSchedule_Sorting" OnRowDataBound="grdSchedule_RowDataBound" >
+            PageSize="3" AllowSorting="true" OnSorting="grdSchedule_Sorting" OnRowDataBound="grdSchedule_RowDataBound" >    
         <Columns>
             <asp:BoundField DataField="SCHEDULE_ID" HeaderText="Schedule ID" SortExpression="SCHEDULE_ID" />
             <asp:BoundField DataField="BUS_NO" HeaderText="Bus No" SortExpression="BUS_NO" />            

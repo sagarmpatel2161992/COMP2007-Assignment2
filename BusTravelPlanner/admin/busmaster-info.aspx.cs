@@ -30,8 +30,8 @@ namespace BusTravelPlanner.admin
         {
             using (TravelConnection db = new TravelConnection())
             {
-                var bus = (from b in db.bus_master                           
-                               select new { b.BUS_ID, b.BUS_NO,b.bustype_master.BUSTYPE_ID, s1 = b.station_master.STATION_ID , s2 = b.station_master1.STATION_ID});
+                var bus = (from b in db.bus_master
+                           select new { b.BUS_ID, b.BUS_NO, b.bustype_master.BUS_TYPE , s1 = b.station_master.STATION_NAME, s2 = b.station_master1.STATION_NAME });
 
                 //append the current direction to the Sort Column
                 String Sort = Session["SortColumn"].ToString() + " " + Session["SortDirection"].ToString();

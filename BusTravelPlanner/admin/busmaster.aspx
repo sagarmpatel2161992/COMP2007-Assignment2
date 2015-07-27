@@ -12,7 +12,7 @@
         </div>
         <div>            
             <label for="ddlBustype">Bus Type:</label>
-            <asp:DropDownList ID="ddlBustype" runat="server"  AutoPostBack="true"
+            <asp:DropDownList ID="ddlBustype" runat="server"  
                  DataTextField="BUS_TYPE" DataValueField="BUSTYPE_ID"></asp:DropDownList>        
         </div>        
 
@@ -24,7 +24,7 @@
 
         <div>            
             <label for="ddlDestination">Destination Station Name:</label>
-            <asp:DropDownList ID="ddlDestination" runat="server"  AutoPostBack="true"
+            <asp:DropDownList ID="ddlDestination" runat="server"  
                  DataTextField="STATION_NAME" DataValueField="STATION_ID"></asp:DropDownList>        
         </div>        
 

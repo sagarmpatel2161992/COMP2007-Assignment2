@@ -14,15 +14,15 @@ namespace BusTravelPlanner.admin
     public partial class busmaster : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
-        {
-
-            GetBusType();
-            GetStation();
-
-            //AddRow();
+        {            
 
             if (!IsPostBack)
             {
+                GetBusType();
+                GetStation();
+
+                AddRow();
+
                 //get the course if editing
                 if (!String.IsNullOrEmpty(Request.QueryString["BUS_ID"]))
                 {

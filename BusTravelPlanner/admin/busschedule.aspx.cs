@@ -16,12 +16,13 @@ namespace BusTravelPlanner.admin
         protected void Page_Load(object sender, EventArgs e)
         {           
 
-            GetBusNo();
-
-            AddRow();
 
             if (!IsPostBack)
             {
+
+                GetBusNo();
+
+                AddRow();
                 //get the course if editing
                 if (!String.IsNullOrEmpty(Request.QueryString["SCHEDULE_ID"]))
                 {

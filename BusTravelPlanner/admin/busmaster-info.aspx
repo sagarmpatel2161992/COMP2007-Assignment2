@@ -23,8 +23,8 @@
             <asp:BoundField DataField="BUS_ID" HeaderText="Bus ID" SortExpression="BUS_ID" />
             <asp:BoundField DataField="BUS_NO" HeaderText="Bus No" SortExpression="BUS_NO" />            
             <asp:BoundField DataField="BUS_TYPE" HeaderText="Bus Type" SortExpression="BUS_TYPE" />            
-            <asp:BoundField DataField="STATION_NAME" HeaderText="Source Station Name" SortExpression="STATION_NAME" />            
-            <asp:BoundField DataField="STATION_NAME" HeaderText="Destination Station Name" SortExpression="STATION_NAME" />            
+            <asp:BoundField DataField="s1" HeaderText="Source Station Name" SortExpression="s1" />            
+            <asp:BoundField DataField="s2" HeaderText="Destination Station Name" SortExpression="s2" />            
             <asp:HyperLinkField HeaderText="Edit" Text="Edit" NavigateUrl="~/admin/busmaster.aspx" 
                 DataNavigateUrlFields="BUS_ID" DataNavigateUrlFormatString="~/admin/busmaster.aspx?BUS_ID={0}" />
             <asp:CommandField DeleteText="Delete" HeaderText="Delete" ShowDeleteButton="true" />
